@@ -2,7 +2,7 @@
 
 **Coming Soon**
 
-Developing a REST API to assist users with study materials
+• Developing a REST API to assist users with study materials <br>
 • Implementing features for user authentication, content generation, and
 CRUD operations for study sessions <br>
 • Integrating with the OpenAI API to generate quizzes, flashcards, and
