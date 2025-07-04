@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { itemRoutes } from './routes/courses.routes.';
+import courses from './routes/courses.routes.';
 import { connectDB } from './db/connect';
 
 // Load environment variables
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/items', itemRoutes);
+app.use('/api/courses', courses);
 
 // Basic error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
