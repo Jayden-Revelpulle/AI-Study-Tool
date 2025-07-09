@@ -17,13 +17,13 @@ Content-Type: application/json
 ###
 
 ### 3. GET Single Course (replace {courseId} with actual ID from CREATE response)
-GET http://localhost:3000/api/courses/{686dc5c783093a4685df1c8d}
+GET http://localhost:3000/api/courses/686dc6e711fc765e359f4e05
 Content-Type: application/json
 
 ###
 
 ### 4. UPDATE Course (replace {courseId} with actual ID)
-PATCH http://localhost:3000/api/courses/{courseId}
+PATCH http://localhost:3000/api/courses/686dc6e711fc765e359f4e05
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 ###
 
 ### 5. DELETE Course (replace {courseId} with actual ID)
-DELETE http://localhost:3000/api/courses/{68699d55f888cecf0f5a3029}
+DELETE http://localhost:3000/api/courses/686dc6e711fc765e359f4e05
 Content-Type: application/json
 
 ###
