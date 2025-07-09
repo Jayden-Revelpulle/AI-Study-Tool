@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import courses from './routes/courses.routes.';
+import courses from './routes/courses.routes';
 import { connectDB } from './db/connect';
 
 // Load environment variables
