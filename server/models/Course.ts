@@ -1,7 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface ICourse extends Document {
-    name: string
+    name: string;
+    resources: Array<{
+        filename: string;
+        path: string;
+        uploadDate: Date;
+        fileSize: number;
+    }>;
 }
 
 const CourseSchema = new Schema<ICourse>({
@@ -9,6 +15,28 @@ const CourseSchema = new Schema<ICourse>({
         type: String, 
         required: [true, 'must provide name'],
         trim: true
+    },
+
+    resources: {
+        type: [{
+            filename: {
+                type: String,
+                required: true
+            },
+            path: {
+                type: String,
+                required: true
+            },
+            uploadDate: {
+                type: Date,
+                default: Date.now
+            },
+            fileSize: {
+                type: Number,
+                required: true
+            }
+        }],
+        default: []
     }
 });
 
