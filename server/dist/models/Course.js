@@ -39,6 +39,27 @@ const CourseSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'must provide name'],
         trim: true
+    },
+    resources: {
+        type: [{
+                filename: {
+                    type: String,
+                    required: true
+                },
+                path: {
+                    type: String,
+                    required: true
+                },
+                uploadDate: {
+                    type: Date,
+                    default: Date.now
+                },
+                fileSize: {
+                    type: Number,
+                    required: true
+                }
+            }],
+        default: []
     }
 });
 exports.default = mongoose_1.default.model('Course', CourseSchema);
