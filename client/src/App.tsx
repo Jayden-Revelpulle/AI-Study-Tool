@@ -10,16 +10,18 @@ interface Course {
   color: string;
 }
 
-const API_BASE_URL = "api/v1";
+const API_BASE_URL = "http://localhost:3000/api/v1";
 
 function App() {
   const [courses, setCourses] = useState<Course[]>([])
 
   const fetchCourses = async () => {
+    console.log("fetchCourses")
     try {
       const response = await axios.get(`${API_BASE_URL}/courses`)
-      console.log(response);
-      //setCourses(response.data.courses);
+      console.log(response.data.courses);
+      setCourses(response.data.courses);
+      console.log(courses)
 
     } catch(err) {
       console.error("Error fetching courses:", err)
