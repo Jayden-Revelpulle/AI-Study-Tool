@@ -2,22 +2,16 @@ import axios from "axios";
 import { useState } from "react";
 import Model from "react-modal";
 
-const API_BASE_URL = "api/v1";
+const API_BASE_URL = "http://localhost:3000/api/v1";;
 
-function CourseModel() {
+function CourseModel({ onCourseCreated } : { onCourseCreated: () => void}) {
   const [visible, setVisible] = useState(false);
   const [courseName, setCourseName] = useState("");
 
-  const addCourse = async () => {
-    const response = await axios.post(`${API_BASE_URL}/courses`);
-    console.log(response);
-  };
-
   const createCourse = async () => {
-    //const response = await axios.post(`${API_BASE_URL}/course`, {name: courseName})
-
-    //close modal
-    setVisible(false);
+    await axios.post(`${API_BASE_URL}/courses`, {name: courseName})  // run POST request to create course
+    onCourseCreated(); // fetch updates courses
+    setVisible(false); //close modal
   };
 
   return (
@@ -33,6 +27,7 @@ function CourseModel() {
       </div>
       <Model
         isOpen={visible}
+        onRequestClose={() => setVisible(false)}
         overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         className="relative bg-white rounded-2xl p-8 flex flex-col items-center justify-center w-full max-w-md mx-auto"
       >
@@ -47,6 +42,7 @@ function CourseModel() {
           <label className="mb-2">Course Name</label>
           <input
             type="text"
+            required={true}
             className="mb-4 border-2 rounded px-2 py-1 w-full"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setCourseName(e.target.value)

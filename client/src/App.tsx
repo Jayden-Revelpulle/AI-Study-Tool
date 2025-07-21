@@ -34,7 +34,7 @@ function App() {
       <h1 className="text-center text-4xl mt-1">API Study Tool</h1>
       <div className="flex flex-col items-center justify-center mt-1">
         <h3 className="text-2xl">My Courses</h3>
-        <CourseModel/>
+        <CourseModel onCourseCreated={fetchCourses}/>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
           {courses.map((course) => {
             return (
