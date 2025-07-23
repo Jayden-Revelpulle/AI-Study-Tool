@@ -1,16 +1,16 @@
 
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Course from "../components/Course";
 import CourseModel from "../components/CourseModel";
+import API_BASE_URL from "../assets/URL";
 
 interface Course {
   _id: string;
   name: string;
   color: string;
 }
-
-const API_BASE_URL = "http://localhost:3000/api/v1";
 
 export default function Home() {
   const [courses, setCourses] = useState<Course[]>([]);
@@ -28,6 +28,8 @@ export default function Home() {
     fetchCourses();
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <h1 className="text-center text-4xl mt-1">API Study Tool</h1>
@@ -36,7 +38,13 @@ export default function Home() {
         <CourseModel onCourseCreated={fetchCourses} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
           {courses.map((course) => (
-            <Course key={course._id} name={course.name} color={"red"} />
+            <div
+                key={course._id}
+                onClick={() => navigate(`/course/${course._id}`, { state: { name: course.name }})}
+                className="cursor-pointer"
+            >
+                <Course key={course._id} name={course.name} color={"red"} />
+            </div>    
           ))}
         </div>
       </div>
