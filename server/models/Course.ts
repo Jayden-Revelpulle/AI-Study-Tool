@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 interface ICourse extends Document {
     name: string;
     resources: Array<{
-        filename: string;
+        name: string;
         path: string;
         uploadDate: Date;
         fileSize: number;
@@ -19,7 +19,7 @@ const CourseSchema = new Schema<ICourse>({
 
     resources: {
         type: [{
-            filename: {
+            name: {
                 type: String,
                 required: true
             },

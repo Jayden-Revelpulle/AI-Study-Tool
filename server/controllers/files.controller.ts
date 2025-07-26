@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Get all course files
-const getCourseFiles = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
+const getResources = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
     const courseID: string = req.params.id.trim();
     const course = await Course.findById(courseID);
     if(!course) {
@@ -17,16 +17,18 @@ const getCourseFiles = asyncWrapper(async (req: Request, res: Response): Promise
 
 })
 
+
+
 // Get a file from a course
-const getCourseFile = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
-    const {courseId, filename} = req.params;
+const getResource = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
+    const {courseId, resourceName} = req.params;
     const course = await Course.findById(courseId);
     if(!course) {
         res.status(404).json({ message: 'Course not found' });
         return
     }
 
-    const file = course.resources.find(resource => resource.filename === filename);
+    const file = course.resources.find(resource => resource.name === resourceName);
     if(!file) {
         res.status(404).json({ message: 'File not found '});
     }
@@ -34,7 +36,7 @@ const getCourseFile = asyncWrapper(async (req: Request, res: Response): Promise<
 })
 
 // Delete a file from a course
-const deleteFile = asyncWrapper(async (req: Request, res: Response) : Promise<void> => {
+const deleteResource = asyncWrapper(async (req: Request, res: Response) : Promise<void> => {
     const {courseId, filename} = req.params;
 
     const course = await Course.findById(courseId);
@@ -43,7 +45,7 @@ const deleteFile = asyncWrapper(async (req: Request, res: Response) : Promise<vo
         return;
     }
 
-    const fileIndex = course.resources.findIndex(resource => resource .filename === filename);
+    const fileIndex = course.resources.findIndex(resource => resource.name === filename);
     if(fileIndex === -1) {
         res.status(404).json({ message: 'File not found'});
         return
