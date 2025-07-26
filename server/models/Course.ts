@@ -4,9 +4,9 @@ interface ICourse extends Document {
     name: string;
     resources: Array<{
         name: string;
-        path: string;
+        fileId: mongoose.Types.ObjectId;
+        contentType: string;
         uploadDate: Date;
-        fileSize: number;
     }>;
 }
 
@@ -23,7 +23,11 @@ const CourseSchema = new Schema<ICourse>({
                 type: String,
                 required: true
             },
-            path: {
+            fileId: {
+                type: mongoose.Schema.Types.ObjectId,
+                required: true
+            },
+            contentType: {
                 type: String,
                 required: true
             },
@@ -31,10 +35,6 @@ const CourseSchema = new Schema<ICourse>({
                 type: Date,
                 default: Date.now
             },
-            fileSize: {
-                type: Number,
-                required: true
-            }
         }],
         default: []
     }
