@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import courses from './routes/courses.routes';
+import files from './routes/files.routes';
 import { connectDB } from './db/connect';
 
 // Load environment variables
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/courses', files);
 
 // Basic error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
