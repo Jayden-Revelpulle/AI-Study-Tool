@@ -62,8 +62,37 @@ const getResource = asyncWrapper(async (req: Request, res: Response): Promise<vo
     if(!file) {
         res.status(404).json({ message: 'File not found '});
     }
+    res.status(200).json({ resource: file });
     
 })
+
+// Update the name of a file
+const updateResourceName = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
+    const { courseId, oldName } = req.params;
+    const { newName } = req.body;
+
+    if (!newName) {
+        res.status(400).json({ message: 'New name is required' });
+        return;
+    }
+
+    const course = await Course.findById(courseId);
+    if (!course) {
+        res.status(404).json({ message: 'Course not found' });
+        return;
+    }
+
+    const resource = course.resources.find(resource => resource.name === oldName);
+    if (!resource) {
+        res.status(404).json({ message: 'Resource not found' });
+        return;
+    }
+
+    resource.name = newName;
+    await course.save();
+
+    res.status(200).json({ message: 'Resource name updated successfully', resource });
+});
 
 // Delete a file from a course
 const deleteResource = asyncWrapper(async (req: Request, res: Response) : Promise<void> => {
@@ -78,15 +107,18 @@ const deleteResource = asyncWrapper(async (req: Request, res: Response) : Promis
     const fileIndex = course.resources.findIndex(resource => resource.name === filename);
     if(fileIndex === -1) {
         res.status(404).json({ message: 'File not found'});
-        return
+        return;
     }
 
-    const file = course.resources[fileIndex];
+    course.resources.splice(fileIndex, 1);
+    await course.save();
+    res.status(200).json({ message: 'Resource deleted successfully' });
 })
 
 export {
     getAllResources,
     uploadResource,
     getResource,
+    updateResourceName,
     deleteResource
 };
