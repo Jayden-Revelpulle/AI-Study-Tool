@@ -20,33 +20,42 @@ const getAllResources = asyncWrapper(async (req: Request, res: Response): Promis
 // Upload (create) a resource
 const uploadResource = asyncWrapper(async (req: Request, res: Response): Promise<void> => {
     const { courseId } = req.params; // grab course id from params
+    const file = req.file;
 
-    interface GridFSFile extends Express.Multer.File {
-        id: any;
-    }
-    const file = req.file as GridFSFile; // grab file from params
-
-    if(!file) {// check file
-        res.status(400).json({ message: 'No file uploaded'})
+    if(!file) {
+        res.status(400).json({ message: 'No file uploaded'});
         return;
     }
 
-    const course = await Course.findById(courseId); // get course from database
-    if(!course) { // check course
-        res.status(404).json({ message: 'Course not found'})
+    const course = await Course.findById(courseId);
+    if(!course) {
+        res.status(404).json({ message: 'Course not found' });
         return;
     }
 
-    // Add file refernce to course.resources
-    course.resources.push({
+    // Check if file with existing name already exists
+    const existingResource = course.resources.find(resource => resource.name === file.originalname);
+    if(existingResource) {
+        res.status(409).json({ message: 'A file with this name already exists'});
+        return;
+    }
+
+    // Create new resource metedata
+    const newResource = {
         name: file.originalname,
-        fileId: file.id, // GridFs file id
         contentType: file.mimetype,
-        uploadDate: new Date(),
-    });
+        uploadDate: new Date()
+    };
 
-    await course.save()
-    res.status(201).json({ message: 'File uploaded successfully', file });
+    // Add to coures resources array
+    course.resources.push(newResource);
+    await course.save();
+
+    res.status(201).json({
+        message: 'Resource uploaded successfully',
+        resource: newResource
+    });
+    
 });
 
 // Get a file from a course

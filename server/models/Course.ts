@@ -4,7 +4,6 @@ interface ICourse extends Document {
     name: string;
     resources: Array<{
         name: string;
-        fileId: mongoose.Types.ObjectId;
         contentType: string;
         uploadDate: Date;
     }>;
@@ -21,10 +20,6 @@ const CourseSchema = new Schema<ICourse>({
         type: [{
             name: {
                 type: String,
-                required: true
-            },
-            fileId: {
-                type: mongoose.Schema.Types.ObjectId,
                 required: true
             },
             contentType: {

@@ -63,3 +63,31 @@ Content-Type: application/json
 }
 
 ###
+
+### 9. Upload a file to a course (replace {courseId} with actual ID)
+POST http://localhost:3000/api/v1/files/687d98971725a357a30573c8/resources/upload
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+This is a test file content.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 10. Get all resources for a course
+GET http://localhost:3000/api/v1/files/{courseId}/resources
+
+### 11. Get a specific resource
+GET http://localhost:3000/api/v1/files/{courseId}/resources/test.txt
+
+### 12. Update resource name
+PATCH http://localhost:3000/api/v1/files/{courseId}/resources/test.txt
+Content-Type: application/json
+
+{
+  "newName": "updated-test.txt"
+}
+
+### 13. Delete a resource
+DELETE http://localhost:3000/api/v1/files/{courseId}/resources/test.txt

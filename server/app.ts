@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/v1/courses', courses);
-app.use('/api/v1/courses', files);
+app.use('/api/v1/files', files);
 
 // Basic error handling
 app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
