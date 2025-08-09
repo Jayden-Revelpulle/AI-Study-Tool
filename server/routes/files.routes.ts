@@ -7,7 +7,7 @@ import {
     deleteResource
 } from '../controllers/files.controller';
 
-import multer from 'multer';
+import upload from '../middleware/upload';
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ const router = express.Router();
 router.get('/:id/resources', getAllResources); 
 
 // Upload a resource to a course
-
+router.post('/:courseId/resources', upload.single('file'), uploadResource);
 
 // Get a specific resource by name
 router.get('/:courseId/resources/:resourceName', getResource);
@@ -24,6 +24,6 @@ router.get('/:courseId/resources/:resourceName', getResource);
 router.patch('/:courseId/resources/:oldName', updateResourceName);
 
 // Delete a resource by name
-router.delete('/:courseId/resources/:filename', deleteResource);
+router.delete('/:courseId/resources/:resourceName', deleteResource);
 
 export default router;

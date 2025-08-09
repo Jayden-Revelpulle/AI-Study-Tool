@@ -40,7 +40,7 @@ const uploadResource = asyncWrapper(async (req: Request, res: Response): Promise
         return;
     }
 
-    // Create new resource metedata
+    // Create new resource metadata
     const newResource = {
         name: file.originalname,
         contentType: file.mimetype,
@@ -70,6 +70,7 @@ const getResource = asyncWrapper(async (req: Request, res: Response): Promise<vo
     const file = course.resources.find(resource => resource.name === resourceName);
     if(!file) {
         res.status(404).json({ message: 'File not found '});
+        return;
     }
     res.status(200).json({ resource: file });
     
@@ -105,7 +106,7 @@ const updateResourceName = asyncWrapper(async (req: Request, res: Response): Pro
 
 // Delete a file from a course
 const deleteResource = asyncWrapper(async (req: Request, res: Response) : Promise<void> => {
-    const {courseId, filename} = req.params;
+    const {courseId, resourceName} = req.params;
 
     const course = await Course.findById(courseId);
     if(!course) {
@@ -113,7 +114,7 @@ const deleteResource = asyncWrapper(async (req: Request, res: Response) : Promis
         return;
     }
 
-    const fileIndex = course.resources.findIndex(resource => resource.name === filename);
+    const fileIndex = course.resources.findIndex(resource => resource.name === resourceName);
     if(fileIndex === -1) {
         res.status(404).json({ message: 'File not found'});
         return;
